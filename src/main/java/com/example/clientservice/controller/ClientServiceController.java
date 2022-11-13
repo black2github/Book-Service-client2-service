@@ -1,7 +1,7 @@
 package com.example.clientservice.controller;
 
 import com.example.clientservice.model.Book;
-import com.example.clientservice.service.ClientService;
+import com.example.clientservice.service.Client2Service;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +15,9 @@ public class ClientServiceController {
     Logger logger = Logger.getLogger(ClientServiceController.class.getName());
 
     private final Environment env;
-    private final ClientService service;
+    private final Client2Service service;
 
-    public ClientServiceController(Environment env, ClientService service) {
+    public ClientServiceController(Environment env, Client2Service service) {
         this.env = env;
         this.service = service;
     }

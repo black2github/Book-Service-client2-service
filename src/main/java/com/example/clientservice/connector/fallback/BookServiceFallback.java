@@ -1,23 +1,25 @@
 package com.example.clientservice.connector.fallback;
 
-import com.example.clientservice.connector.BookServiceUpdateConnector;
+import com.example.clientservice.connector.BookServiceConnector;
 import com.example.clientservice.model.Book;
+import com.example.clientservice.service.Client2Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Slf4j
-@Service
+@Component
 @AllArgsConstructor
-public class BookServiceFallback {
+public class BookServiceFallback implements BookServiceConnector {
 
-    private BookServiceUpdateConnector bookServiceUpdateConnector;
+    private Client2Service service;
 
-    // @HystrixCommand(fallbackMethod = "failed")
-    public List<Book> getAllBooks() {
-        log.info("ServiceFallback called.");
-        return bookServiceUpdateConnector.getAllBooksList();
+    @Override
+    public List<Book> getAllBooksList() {
+        log.warn("Service is not available now.");
+        log.info("Calling book-service-update.");
+        return service.getAllBooksFromFallback();
     }
 }
