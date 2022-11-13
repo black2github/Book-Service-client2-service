@@ -14,8 +14,8 @@ import java.util.logging.Logger;
 public class ClientServiceController {
     Logger logger = Logger.getLogger(ClientServiceController.class.getName());
 
-    private Environment env;
-    private ClientService service;
+    private final Environment env;
+    private final ClientService service;
 
     public ClientServiceController(Environment env, ClientService service) {
         this.env = env;
@@ -29,15 +29,9 @@ public class ClientServiceController {
         return home;
     }
 
-    @RequestMapping("/getAllBooksByFeignClient")
+    @RequestMapping("/getAllBooks")
     public List<Book> getAllBooks() {
         logger.info("Calling through Feign Client");
         return service.getAllBooks();
-    }
-
-    @RequestMapping("/getAllBooksByRestTemplate")
-    public List<Book> data() {
-        logger.info("Calling through RestTemplate");
-        return service.data();
     }
 }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: book-client
+    name: book-client2
   # gets rest of config from config-server
   cloud:
     config:

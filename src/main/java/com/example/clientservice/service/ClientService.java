@@ -1,14 +1,13 @@
 package com.example.clientservice.service;
 
-import com.example.clientservice.connector.FeignConnector;
-import com.example.clientservice.connector.RestTemplateConnector;
+import com.example.clientservice.connector.BookServiceConnector;
+import com.example.clientservice.connector.fallback.BookServiceFallback;
 import com.example.clientservice.model.Book;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -16,26 +15,21 @@ import java.util.List;
 @AllArgsConstructor
 public class ClientService {
 
-    private FeignConnector feignConnector;
-    private RestTemplateConnector restTemplateConnector;
+    private BookServiceConnector bookServiceConnector;
+    private BookServiceFallback bookServiceFallback;
 
-    @HystrixCommand(fallbackMethod = "failed")
+    @HystrixCommand(fallbackMethod = "getAllBooksFromFallback")
     public List<Book> getAllBooks() {
-        return feignConnector.getAllBooksList();
-    }
-
-    public List<Book> data() {
-        return restTemplateConnector.data();
+        return bookServiceConnector.getAllBooksList();
     }
 
     /**
      * Hystrix fallback method
-     * @return
+     * @return List<Book>
      */
-    public List<Book>  failed() {
-        String error = "Service is not available now. Please try again later";
+    public List<Book> getAllBooksFromFallback() {
+        String error = "Service is not available now. Try another service point...";
         log.info(error);
-        List<Book> books = new ArrayList<>();
-        return books;
+        return bookServiceFallback.getAllBooks();
     }
 }

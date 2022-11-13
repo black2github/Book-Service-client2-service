@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @FeignClient(
-        name = "book-service",
-        url = "${book-service.url}",
+        name = "book-service-update",
+        url = "${book-service-update.url}",
         configuration = FeignConfig.class
 )
 @Component
-public interface FeignConnector {
-    @GetMapping("${book-service.feign}")
+public interface BookServiceUpdateConnector {
+    @GetMapping("${book-service-update.feign}")
     List<Book> getAllBooksList();
 }
