@@ -1,6 +1,7 @@
 package com.example.clientservice.service;
 
 import com.example.clientservice.connector.BookServiceConnector;
+import com.example.clientservice.connector.BookServiceUpdateConnector;
 import com.example.clientservice.connector.fallback.BookServiceFallback;
 import com.example.clientservice.model.Book;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -16,7 +17,8 @@ import java.util.List;
 public class ClientService {
 
     private BookServiceConnector bookServiceConnector;
-    private BookServiceFallback bookServiceFallback;
+    // private BookServiceFallback bookServiceFallback; // вариант 1
+    private BookServiceUpdateConnector bookServiceUpdateConnector; // вариант 2
 
     @HystrixCommand(fallbackMethod = "getAllBooksFromFallback")
     public List<Book> getAllBooks() {
@@ -28,8 +30,8 @@ public class ClientService {
      * @return List<Book>
      */
     public List<Book> getAllBooksFromFallback() {
-        String error = "Service is not available now. Try another service point...";
-        log.info(error);
-        return bookServiceFallback.getAllBooks();
+        log.warn("Service is not available now. Try another service point...");
+        // return bookServiceFallback.getAllBooks(); // вариант 1
+        return bookServiceUpdateConnector.getAllBooksList(); // вариант 2
     }
 }
