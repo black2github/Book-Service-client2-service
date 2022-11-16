@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
+// @AllArgsConstructor
 @RequestMapping("/")
 public class ClientServiceController {
-    Logger logger = Logger.getLogger(ClientServiceController.class.getName());
-
+    private Logger logger = Logger.getLogger(ClientServiceController.class.getName());
     private final Environment env;
     private final ClientService service;
 
